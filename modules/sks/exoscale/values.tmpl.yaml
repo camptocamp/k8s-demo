@@ -1,0 +1,31 @@
+---
+apps:
+  local-path-provisioner:
+    enabled: true
+  loki-stack:
+    enabled: false
+  metrics-server:
+    enabled: false
+
+argo-cd:
+  server:
+    extraArgs:
+      - --insecure
+
+cert-manager:
+  clusterIssuers:
+    letsencrypt:
+      enabled: true
+    acme:
+      solvers:
+        - http01:
+            ingress: {}
+
+traefik:
+  ports:
+    web:
+      hostPort: 80
+    websecure:
+      hostPort: 443
+  service:
+    type: NodePort
