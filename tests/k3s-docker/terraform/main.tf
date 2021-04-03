@@ -6,43 +6,73 @@ module "cluster" {
 
   repo_url        = var.repo_url
   target_revision = var.target_revision
+}
 
-  extra_apps = [
-    {
-      metadata = {
-        name = "demo-app"
-      }
-      spec = {
-        project = "default"
+provider "argocd" {
+  server_addr = module.cluster.argocd_server
+  auth_token  = module.cluster.argocd_auth_token
+  insecure    = true
+  grpc_web    = true
+}
 
-        source = {
-          path           = "tests/k3s-docker/argocd/demo-app"
-          repoURL        = var.repo_url
-          targetRevision = var.target_revision
+resource "argocd_project" "demo_app" {
+  metadata {
+    name      = "demo-app"
+    namespace = "argocd"
+  }
 
-          helm = {
-            values = <<EOT
+  spec {
+    description  = "Demo application project"
+    source_repos = ["*"]
+
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "default"
+    }
+
+    orphaned_resources {
+      warn = true
+    }
+  }
+}
+
+resource "argocd_application" "demo_app" {
+  metadata {
+    name = "demo-app"
+  }
+
+  spec {
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "default"
+    }
+
+    source {
+      repo_url        = var.repo_url
+      path            = "tests/k3s-docker/argocd/demo-app"
+      target_revision = var.target_revision
+
+      helm {
+        values = <<EOT
 spec:
   source:
     repoURL: ${var.repo_url}
     targetRevision: ${var.target_revision}
 
 baseDomain: ${module.cluster.base_domain}
-          EOT
-          }
-        }
-
-        destination = {
-          namespace = "demo-app"
-          server    = "https://kubernetes.default.svc"
-        }
-
-        syncPolicy = {
-          automated = {
-            selfHeal = true
-          }
-        }
+EOT
       }
     }
-  ]
+
+    project = argocd_project.demo_app.metadata.0.name
+
+    sync_policy {
+      automated = {
+        prune     = true
+        self_heal = true
+      }
+    }
+  }
+
+  wait = true
 }
