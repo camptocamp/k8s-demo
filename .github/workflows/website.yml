@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - master
-      - doc_test_build
 env:
   SITE_DIR: 'site'
 jobs:
