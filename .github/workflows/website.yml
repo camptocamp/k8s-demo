@@ -42,7 +42,7 @@ jobs:
         with:
           antora_playbook: antora-playbook.yml
           antora_search_bar: "true"
-          antora_generator: "@antora/site-generator-default"
+          antora_generator: "antora-site-generator-lunr"
       - name: "List folder"
         run: |
           ls -ltr $GITHUB_WORKSPACE/build/
