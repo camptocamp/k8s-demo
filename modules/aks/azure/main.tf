@@ -199,67 +199,23 @@ resource "azurerm_role_assignment" "dns_zone_contributor" {
 
 data "azurerm_client_config" "current" {}
 
-resource "azuread_application" "oauth2_apps" {
+module "oauth2_application" {
   count = var.oidc == null ? 1 : 0
 
-  name = "oauth2-apps-${var.cluster_name}"
-  reply_urls = [
+  source = "${path.module}/oauth2-application"
+
+  application_name = "oauth2-apps-${var.cluster_name}"
+  
+  application_reply_urls = [
     format("https://argocd.apps.%s.%s/auth/callback", var.cluster_name, var.base_domain),
     format("https://grafana.apps.%s.%s/login/generic_oauth", var.cluster_name, var.base_domain),
     format("https://prometheus.apps.%s.%s/oauth2/callback", var.cluster_name, var.base_domain),
     format("https://alertmanager.apps.%s.%s/oauth2/callback", var.cluster_name, var.base_domain),
   ]
 
-  required_resource_access {
-    resource_app_id = "00000003-0000-0000-c000-000000000000"
-
-    resource_access {
-      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
-      type = "Scope"
-    }
-  }
-
-  group_membership_claims = "ApplicationGroup"
-
-  optional_claims {
-    access_token {
-      additional_properties = []
-      essential             = false
-      name                  = "groups"
-    }
-    id_token {
-      additional_properties = []
-      essential             = false
-      name                  = "groups"
-    }
-  }
-}
-
-resource "azuread_application_app_role" "argocd_admin" {
-  count = var.oidc == null ? 1 : 0
-
-  application_object_id = azuread_application.oauth2_apps.0.id
-  allowed_member_types  = ["User"]
-  description           = "ArgoCD Admins"
-  display_name          = "ArgoCD Administrator"
-  is_enabled            = true
-  value                 = "argocd-admin"
-}
-
-resource "random_password" "oauth2_apps" {
-  count = var.oidc == null ? 1 : 0
-
-  length           = 34
-  special          = true
-  override_special = "-_~."
-}
-
-resource "azuread_application_password" "oauth2_apps" {
-  count = var.oidc == null ? 1 : 0
-
-  application_object_id = azuread_application.oauth2_apps.0.id
-  end_date              = "2299-12-30T23:00:00Z"
-  value                 = random_password.oauth2_apps.0.result
+  app_role_name = "argocd-admin"
+  app_role_description = "ArgoCD Admins"
+  app_role_display_name = "ArgoCD Administrator"
 }
 
 data "azurerm_policy_set_definition" "restricted" {
