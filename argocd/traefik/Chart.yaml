@@ -3,8 +3,8 @@ apiVersion: "v2"
 name: "traefik"
 version: "0"
 description: |
-  This chart installs Traefik and configures it as the default Kubernetes cluster Ingress Controller. 
+  This chart installs Traefik and configures it as the default Kubernetes cluster Ingress Controller.
 dependencies:
   - name: "traefik"
-    version: "9.11.0"
+    version: "9.19.1"
     repository: "https://helm.traefik.io/traefik"
