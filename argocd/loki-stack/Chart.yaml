@@ -3,9 +3,9 @@ apiVersion: "v2"
 name: "loki-stack"
 version: "0"
 description: |
-  This chart installs loki-stack. 
+  This chart installs loki-stack.
   Loki is a log aggregation system made by Grafana Labs, and inspired by Prometheus.
 dependencies:
   - name: "loki-stack"
-    version: "2.3.1"
+    version: "2.4.1"
     repository: "https://grafana.github.io/helm-charts"
