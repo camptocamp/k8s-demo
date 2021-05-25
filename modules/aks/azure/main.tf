@@ -46,7 +46,7 @@ data "azurerm_kubernetes_cluster" "cluster" {
 
 module "cluster" {
   source  = "Azure/aks/azurerm"
-  version = "4.7.0"
+  version = "4.12.0"
 
   kubernetes_version   = var.kubernetes_version
   orchestrator_version = var.kubernetes_version
