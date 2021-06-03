@@ -109,6 +109,15 @@ resource "exoscale_security_group_rule" "https" {
   end_port          = 443
 }
 
+resource "exoscale_security_group_rule" "all" {
+  security_group_id      = module.cluster.this_security_group_id
+  user_security_group_id = module.cluster.this_security_group_id
+  type                   = "INGRESS"
+  protocol               = "TCP"
+  start_port             = 1
+  end_port               = 65535
+}
+
 module "argocd" {
   source = "../../argocd-helm"
 
