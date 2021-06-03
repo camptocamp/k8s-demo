@@ -121,8 +121,6 @@ resource "exoscale_security_group_rule" "all" {
 module "argocd" {
   source = "../../argocd-helm"
 
-  wait_for_app_of_apps = false
-
   kubeconfig              = local.kubeconfig
   repo_url                = var.repo_url
   target_revision         = var.target_revision
