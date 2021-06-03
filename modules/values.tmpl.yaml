@@ -133,7 +133,7 @@ argo-cd:
     rbacConfig:
       policy.default: role:readonly
       policy.csv: |
-        g, pipeline, role:readonly
+        g, pipeline, role:admin
         g, argocd-admin, role:admin
       scopes: '[groups, cognito:groups, roles]'
 
