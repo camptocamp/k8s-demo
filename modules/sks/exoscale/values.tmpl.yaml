@@ -13,13 +13,8 @@ argo-cd:
       - --insecure
 
 cert-manager:
-  clusterIssuers:
-    letsencrypt:
-      enabled: true
-    acme:
-      solvers:
-        - http01:
-            ingress: {}
+  tlsCrt: ${root_cert}
+  tlsKey: ${root_key}
 
 traefik:
   ports:

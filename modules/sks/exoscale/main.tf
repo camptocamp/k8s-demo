@@ -121,7 +121,7 @@ module "argocd" {
   cluster_name            = var.cluster_name
   base_domain             = local.base_domain
   argocd_server_secretkey = var.argocd_server_secretkey
-  cluster_issuer          = "letsencrypt-prod"
+  cluster_issuer          = "ca-issuer"
 
   oidc = var.oidc != null ? var.oidc : {
     issuer_url              = format("https://keycloak.apps.%s/auth/realms/kubernetes", local.base_domain)
@@ -147,7 +147,12 @@ module "argocd" {
   }
 
   app_of_apps_values_overrides = [
-    templatefile("${path.module}/values.tmpl.yaml", {}),
+    templatefile("${path.module}/values.tmpl.yaml",
+      {
+        root_cert = base64encode(tls_self_signed_cert.root.cert_pem)
+        root_key  = base64encode(tls_private_key.root.private_key_pem)
+      }
+    ),
     var.app_of_apps_values_overrides,
   ]
 
@@ -164,4 +169,26 @@ resource "random_password" "clientsecret" {
 resource "random_password" "admin_password" {
   length  = 16
   special = false
+}
+
+resource "tls_private_key" "root" {
+  algorithm = "ECDSA"
+}
+
+resource "tls_self_signed_cert" "root" {
+  key_algorithm   = "ECDSA"
+  private_key_pem = tls_private_key.root.private_key_pem
+
+  subject {
+    common_name  = "devops-stack.camptocamp.com"
+    organization = "Camptocamp, SA"
+  }
+
+  validity_period_hours = 8760
+
+  allowed_uses = [
+    "cert_signing",
+  ]
+
+  is_ca_certificate = true
 }
