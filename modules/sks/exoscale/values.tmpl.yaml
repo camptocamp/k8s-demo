@@ -13,6 +13,13 @@ argo-cd:
 cert-manager:
   tlsCrt: "${root_cert}"
   tlsKey: "${root_key}"
+  clusterIssuers:
+    letsencrypt:
+      enabled: true
+    acme:
+      solvers:
+        - http01:
+            ingress: {}
 
 loki-stack:
   promtail:
