@@ -1,7 +1,7 @@
 variable "k3os_version" {
   description = "The K3os version to use"
   type        = string
-  default     = "v0.20.4-k3s1r0"
+  default     = "v0.20.6-k3s1r0"
 }
 
 variable "server_memory" {
