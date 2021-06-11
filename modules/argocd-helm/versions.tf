@@ -2,7 +2,7 @@ terraform {
   required_providers {
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.0"
+      version = "~> 2.2"
     }
     jwt = {
       source  = "camptocamp/jwt"
@@ -14,6 +14,10 @@ terraform {
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
+    }
+    kubernetes-alpha = {
+      source  = "hashicorp/kubernetes-alpha"
+      version = "~> 0.5"
     }
     random = {
       source = "hashicorp/random"

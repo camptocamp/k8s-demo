@@ -54,6 +54,13 @@ provider "kubernetes" {
   token                  = local.kubernetes_token
 }
 
+provider "kubernetes-alpha" {
+  host                   = local.kubernetes_host
+  client_certificate     = local.kubernetes_client_certificate
+  client_key             = local.kubernetes_client_key
+  cluster_ca_certificate = local.kubernetes_cluster_ca_certificate
+}
+
 locals {
   ingress_worker_group = merge(var.worker_groups.0, { target_group_arns = concat(module.nlb.target_group_arns, module.nlb_private.target_group_arns) })
 }

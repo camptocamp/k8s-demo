@@ -31,6 +31,13 @@ provider "kubernetes" {
   cluster_ca_certificate = local.kubernetes_cluster_ca_certificate
 }
 
+provider "kubernetes-alpha" {
+  host                   = local.kubernetes_host
+  client_certificate     = local.kubernetes_client_certificate
+  client_key             = local.kubernetes_client_key
+  cluster_ca_certificate = local.kubernetes_cluster_ca_certificate
+}
+
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }

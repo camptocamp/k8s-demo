@@ -90,43 +90,29 @@ resource "jwt_hashed_token" "argocd" {
   claims_json = jsonencode(local.jwt_token_payload)
 }
 
-resource "helm_release" "app_of_apps" {
-  name              = "app-of-apps"
-  chart             = "${path.module}/../../argocd/app-of-apps"
-  namespace         = "argocd"
-  dependency_update = true
-  create_namespace  = true
-  values            = local.app_of_apps_values
+data "helm_template" "app_of_apps" {
+  name      = "app-of-apps"
+  namespace = "argocd"
+  chart     = "${path.module}/../../argocd/apps"
+  values    = local.app_of_apps_values
+
+  show_only = [
+    "templates/apps.yaml",
+  ]
 
   depends_on = [
     helm_release.argocd
   ]
 }
 
-resource "null_resource" "wait_for_app_of_apps" {
-  count = var.wait_for_app_of_apps ? 1 : 0
+resource "kubernetes_manifest" "app_of_apps" {
+  provider = kubernetes-alpha
 
-  triggers = {
-    app_of_apps_values = join("---\n", helm_release.app_of_apps.values)
-  }
+  manifest = yamldecode(data.helm_template.app_of_apps.manifests["templates/apps.yaml"])
 
-  provisioner "local-exec" {
-    command = <<EOT
-    KUBECONFIG=$(mktemp /tmp/kubeconfig.XXXXXX)
-    echo "$KUBECONFIG_CONTENT" > "$KUBECONFIG"
-    export KUBECONFIG
-    for i in `seq 1 60`; do
-      argocd app wait apps --sync --health --timeout 30 && rm "$KUBECONFIG" && exit 0
-    done
-    echo TIMEOUT
-    rm "$KUBECONFIG"
-    exit 1
-    EOT
-
-    environment = {
-      ARGOCD_OPTS        = local.argocd_opts
-      KUBECONFIG_CONTENT = var.kubeconfig
-      ARGOCD_AUTH_TOKEN  = jwt_hashed_token.argocd.token
+  wait_for = {
+    fields = {
+      "status.health.status" = "Healthy"
     }
   }
 }

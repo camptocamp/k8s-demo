@@ -4,6 +4,8 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "5"
+  labels:
+    argocd.argoproj.io/instance: "apps"
   name: apps
   namespace: argocd
 spec:
