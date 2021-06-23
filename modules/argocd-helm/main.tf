@@ -21,43 +21,43 @@ locals {
   argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
   app_of_apps_tmpl_defaults = {
-        repo_url                        = var.repo_url
-        target_revision                 = var.target_revision
-        argocd_accounts_pipeline_tokens = local.argocd_accounts_pipeline_tokens
-        argocd_server_secretkey         = local.argocd_server_secretkey
-        extra_apps                      = var.extra_apps
-        extra_app_projects              = var.extra_app_projects
-        extra_application_sets          = var.extra_application_sets
-        cluster_name                    = var.cluster_name
-        base_domain                     = var.base_domain
-        cluster_issuer                  = var.cluster_issuer
-        oidc                            = local.oidc
-        cookie_secret                   = random_password.oauth2_cookie_secret.result
-        minio                           = local.minio
-        loki                            = local.loki
-        traefik                         = local.traefik
-        argocd                          = local.argocd
-        keycloak                        = local.keycloak
-        grafana                         = local.grafana
-        prometheus                      = local.prometheus
-        alertmanager                    = local.alertmanager
-        metrics_server                  = local.metrics_server
-        metrics_archives                = local.metrics_archives
-        cert_manager                    = local.cert_manager
-        kube_prometheus_stack           = local.kube_prometheus_stack
-        cluster_autoscaler              = local.cluster_autoscaler
-      }
-      
+    repo_url                        = var.repo_url
+    target_revision                 = var.target_revision
+    argocd_accounts_pipeline_tokens = local.argocd_accounts_pipeline_tokens
+    argocd_server_secretkey         = local.argocd_server_secretkey
+    extra_apps                      = var.extra_apps
+    extra_app_projects              = var.extra_app_projects
+    extra_application_sets          = var.extra_application_sets
+    cluster_name                    = var.cluster_name
+    base_domain                     = var.base_domain
+    cluster_issuer                  = var.cluster_issuer
+    oidc                            = local.oidc
+    cookie_secret                   = random_password.oauth2_cookie_secret.result
+    minio                           = local.minio
+    loki                            = local.loki
+    traefik                         = local.traefik
+    argocd                          = local.argocd
+    keycloak                        = local.keycloak
+    grafana                         = local.grafana
+    prometheus                      = local.prometheus
+    alertmanager                    = local.alertmanager
+    metrics_server                  = local.metrics_server
+    metrics_archives                = local.metrics_archives
+    cert_manager                    = local.cert_manager
+    kube_prometheus_stack           = local.kube_prometheus_stack
+    cluster_autoscaler              = local.cluster_autoscaler
+  }
+
   app_of_apps_values_bootstrap = concat([
     templatefile("${path.module}/../values.tmpl.yaml",
-      merge(local.app_of_apps_tmpl_defaults, {bootstrap = true})
+      merge(local.app_of_apps_tmpl_defaults, { bootstrap = true })
     )],
     var.app_of_apps_values_overrides,
   )
 
   app_of_apps_values = concat([
     templatefile("${path.module}/../values.tmpl.yaml",
-      merge(local.app_of_apps_tmpl_defaults, {bootstrap = false})
+      merge(local.app_of_apps_tmpl_defaults, { bootstrap = false })
     )],
     var.app_of_apps_values_overrides,
   )
@@ -124,9 +124,7 @@ resource "null_resource" "wait_for_app_of_apps" {
     KUBECONFIG=$(mktemp /tmp/kubeconfig.XXXXXX)
     echo "$KUBECONFIG_CONTENT" > "$KUBECONFIG"
     export KUBECONFIG
-    for i in `seq 1 60`; do
-      argocd app wait apps --sync --health --timeout 30 && rm "$KUBECONFIG" && exit 0
-    done
+    argocd app wait apps --sync --health --timeout 1800 && rm "$KUBECONFIG" && exit 0
     echo TIMEOUT
     rm "$KUBECONFIG"
     exit 1
