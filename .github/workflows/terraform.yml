@@ -37,7 +37,7 @@ jobs:
       - name: Setup ArgoCD
         run: |
           mkdir "$GITHUB_WORKSPACE/bin"
-          curl -L https://github.com/argoproj/argo-cd/releases/download/v2.0.3/argocd-linux-amd64 > "$GITHUB_WORKSPACE/bin/argocd"
+          curl -L https://github.com/argoproj/argo-cd/releases/download/v2.0.4/argocd-linux-amd64 > "$GITHUB_WORKSPACE/bin/argocd"
           echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
           chmod +x "$GITHUB_WORKSPACE/bin/argocd"
 
@@ -111,7 +111,7 @@ jobs:
       - name: Setup ArgoCD
         run: |
           mkdir "$GITHUB_WORKSPACE/bin"
-          curl -L https://github.com/argoproj/argo-cd/releases/download/v2.0.3/argocd-linux-amd64 > "$GITHUB_WORKSPACE/bin/argocd"
+          curl -L https://github.com/argoproj/argo-cd/releases/download/v2.0.4/argocd-linux-amd64 > "$GITHUB_WORKSPACE/bin/argocd"
           echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
           chmod +x "$GITHUB_WORKSPACE/bin/argocd"
 
@@ -171,7 +171,7 @@ jobs:
 
       - name: ArgoCD app diff with ${{ github.ref }}
         id: app-diff
-        uses: docker://argoproj/argocd:v2.0.3
+        uses: docker://argoproj/argocd:v2.0.4
         env:
           KUBECONFIG: ${{ github.workspace }}/kubeconfig
           APP_OF_APPS_VALUES_0 : ${{ github.workspace }}/values0.yaml

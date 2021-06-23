@@ -124,9 +124,7 @@ resource "null_resource" "wait_for_app_of_apps" {
     KUBECONFIG=$(mktemp /tmp/kubeconfig.XXXXXX)
     echo "$KUBECONFIG_CONTENT" > "$KUBECONFIG"
     export KUBECONFIG
-    for i in `seq 1 60`; do
-      argocd app wait apps --sync --health --timeout 30 && rm "$KUBECONFIG" && exit 0
-    done
+    argocd app wait apps --sync --health --timeout 1800 && rm "$KUBECONFIG" && exit 0
     echo TIMEOUT
     rm "$KUBECONFIG"
     exit 1
