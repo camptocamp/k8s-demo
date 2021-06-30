@@ -26,7 +26,7 @@ provider "kubernetes" {
 
 module "cluster" {
   source  = "camptocamp/cce/opentelekomcloud"
-  version = "0.1.0"
+  version = "0.2.0"
 
   flavor_id    = var.flavor_id
   vpc_id       = var.vpc_id

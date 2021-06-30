@@ -16,19 +16,22 @@ module "cluster" {
       flavor             = "s2.xlarge.2"
       initial_node_count = 1
       availability_zone  = "eu-de-01"
-      key_pair           = "terraform"
+      key_pair           = var.key_pair
+      postinstall        = var.postinstall
     },
     "worker-02" = {
       flavor             = "s2.xlarge.2"
       initial_node_count = 1
       availability_zone  = "eu-de-02"
-      key_pair           = "terraform"
+      key_pair           = var.key_pair
+      postinstall        = var.postinstall
     },
     "worker-03" = {
       flavor             = "s2.xlarge.2"
       initial_node_count = 1
       availability_zone  = "eu-de-03"
-      key_pair           = "terraform"
+      key_pair           = var.key_pair
+      postinstall        = var.postinstall
     },
   }
 }

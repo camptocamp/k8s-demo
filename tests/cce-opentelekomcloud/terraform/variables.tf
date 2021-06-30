@@ -3,3 +3,5 @@ variable "subnet_id" {}
 variable "repo_url" {}
 variable "target_revision" {}
 variable "base_domain" {}
+variable "key_pair" {}
+variable "postinstall" {}
