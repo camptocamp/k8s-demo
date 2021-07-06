@@ -1,14 +1,18 @@
 ---
-￼argo-cd:
-￼  server:
-￼    extraArgs:
-￼      - --insecure
-￼
-￼traefik:
-￼  ports:
-￼    web:
-￼      hostPort: 80
-￼    websecure:
-￼      hostPort: 443
-￼  service:
-￼    type: NodePort
+argo-cd:
+  server:
+    extraArgs:
+      - --insecure
+  global:
+    securityContext:
+      fsGroup: 65534
+
+
+traefik:
+  ports:
+    web:
+      hostPort: 80
+    websecure:
+      hostPort: 443
+  service:
+    type: NodePort
