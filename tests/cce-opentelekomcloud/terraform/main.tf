@@ -1,6 +1,8 @@
 module "cluster" {
   source = "../../../modules/cce/opentelekomcloud"
 
+  app_of_apps_values_overrides = var.app_of_apps_values_overrides
+
   cluster_name = "test"
   base_domain  = var.base_domain
 

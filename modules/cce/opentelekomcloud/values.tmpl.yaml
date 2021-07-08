@@ -7,7 +7,6 @@ argo-cd:
     securityContext:
       fsGroup: 65534
 
-
 traefik:
   ports:
     web:
