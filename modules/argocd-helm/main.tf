@@ -94,6 +94,13 @@ resource "helm_release" "argocd" {
   values            = local.argocd_values
 }
 
+data "kubernetes_ingress" "argocd_server" {
+  metadata {
+    name      = "argocd-server"
+    namespace = helm_release.argocd.namespace
+  }
+}
+
 resource "jwt_hashed_token" "argocd" {
   algorithm   = "HS256"
   secret      = local.argocd_server_secretkey

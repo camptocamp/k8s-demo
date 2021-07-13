@@ -1,3 +1,8 @@
+output "argocd_server" {
+  description = "The URL of the ArgoCD server."
+  value       = format("%s:443", data.kubernetes_ingress.argocd_server.spec.0.rule.0.host)
+}
+
 output "argocd_auth_token" {
   description = "The token to set in ARGOCD_AUTH_TOKEN environment variable."
   value       = jwt_hashed_token.argocd.token
