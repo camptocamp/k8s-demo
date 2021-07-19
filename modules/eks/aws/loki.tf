@@ -1,4 +1,5 @@
 resource "aws_s3_bucket" "loki" {
+  bucket        = "loki-${var.cluster_name}"
   force_destroy = true
 
   tags = {
