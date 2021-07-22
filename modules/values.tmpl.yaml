@@ -132,10 +132,13 @@ argo-cd:
     ingress:
       enabled: true
       annotations:
+        kubernetes.io/ingress.class: "traefik-cert-manager"
         cert-manager.io/cluster-issuer: "${cluster_issuer}"
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/redirect-permanent: "true"
         traefik.ingress.kubernetes.io/router.tls: "true"
         ingress.kubernetes.io/ssl-redirect: "true"
+        ingress.kubernetes.io/ssl-temporary-redirect: "false"
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${argocd.domain}"
