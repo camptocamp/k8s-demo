@@ -20,3 +20,4 @@ spec:
     - "{{ .Values.spec.source.repoURL }}"
     - "https://github.com/keycloak/keycloak-operator.git"
     - "https://github.com/kubernetes-sigs/metrics-server.git"
+    - "https://github.com/rancher/local-path-provisioner"
