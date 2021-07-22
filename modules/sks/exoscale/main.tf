@@ -14,8 +14,12 @@ locals {
   default_nodepools = {
     "router-${var.cluster_name}" = {
       size          = 2
+      instance_type = "medium"
+    },
+    "devops-stack-${var.cluster_name}" = {
+      size          = 2
       instance_type = "large"
-    }
+    },
   }
 
   router_nodepool = coalesce(var.router_nodepool, "router-${var.cluster_name}")
