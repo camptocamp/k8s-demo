@@ -17,8 +17,7 @@ cert-manager:
     acme:
       solvers:
         - http01:
-            ingress:
-              class: "traefik-cert-manager"
+            ingress: {}
 
 loki-stack:
   promtail:
