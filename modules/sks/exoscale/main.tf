@@ -128,7 +128,7 @@ module "argocd" {
   cluster_name            = var.cluster_name
   base_domain             = local.base_domain
   argocd_server_secretkey = var.argocd_server_secretkey
-  cluster_issuer          = "ca-issuer"
+  cluster_issuer          = "letsencrypt-staging"
 
   oidc = var.oidc != null ? var.oidc : {
     issuer_url    = format("https://keycloak.apps.%s/auth/realms/kubernetes", local.base_domain)
