@@ -6,6 +6,7 @@ traefik:
   additionalArguments:
     - "--metrics.prometheus=true"
     - "--serversTransport.insecureSkipVerify=true"
+    - "--providers.kubernetesIngress.ingressClass=traefik-cert-manager"
   logs:
     access:
       enabled: true
