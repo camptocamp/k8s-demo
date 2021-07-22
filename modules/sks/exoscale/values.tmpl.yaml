@@ -11,8 +11,6 @@ argo-cd:
       - "--insecure"
 
 cert-manager:
-  tlsCrt: "${root_cert}"
-  tlsKey: "${root_key}"
   clusterIssuers:
     letsencrypt:
       enabled: true
