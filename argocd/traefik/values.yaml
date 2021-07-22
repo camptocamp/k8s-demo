@@ -4,8 +4,8 @@ traefik:
   deployment:
     replicas: 2
   additionalArguments:
-    - --metrics.prometheus=true
-    - --serversTransport.insecureSkipVerify=true
+    - "--metrics.prometheus=true"
+    - "--serversTransport.insecureSkipVerify=true"
   logs:
     access:
       enabled: true

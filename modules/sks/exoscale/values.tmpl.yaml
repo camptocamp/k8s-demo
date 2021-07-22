@@ -25,29 +25,29 @@ loki-stack:
   promtail:
     extraScrapeConfigs:
       # Add an additional scrape config for syslog
-      - job_name: journal
+      - job_name: "journal"
         journal:
-          path: /var/log/journal
-          max_age: 12h
+          path: "/var/log/journal"
+          max_age: "12h"
           labels:
-            job: systemd-journal
+            job: "systemd-journal"
         relabel_configs:
           - source_labels:
-              - '__journal__systemd_unit'
-            target_label: 'unit'
+              - "__journal__systemd_unit"
+            target_label: "unit"
           - source_labels:
-              - '__journal__hostname'
-            target_label: 'hostname'
+              - "__journal__hostname"
+            target_label: "hostname"
 
     # Mount journal directory into promtail pods
     extraVolumes:
-      - name: journal
+      - name: "journal"
         hostPath:
-          path: /var/log/journal
+          path: "/var/log/journal"
 
     extraVolumeMounts:
-      - name: journal
-        mountPath: /var/log/journal
+      - name: "journal"
+        mountPath: "/var/log/journal"
         readOnly: true
 
 traefik:
