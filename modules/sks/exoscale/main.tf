@@ -142,10 +142,7 @@ module "argocd" {
     client_id     = "applications"
     client_secret = random_password.clientsecret.result
 
-    oauth2_proxy_extra_args = [
-      "--insecure-oidc-skip-issuer-verification=true",
-      "--ssl-insecure-skip-verify=true",
-    ]
+    oauth2_proxy_extra_args = []
   }
 
   grafana = {
