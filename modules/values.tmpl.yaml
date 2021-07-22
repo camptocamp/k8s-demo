@@ -135,6 +135,7 @@ argo-cd:
         cert-manager.io/cluster-issuer: "${cluster_issuer}"
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls: "true"
+        ingress.kubernetes.io/ssl-redirect: "true"
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${argocd.domain}"
@@ -180,6 +181,7 @@ keycloak:
       cert-manager.io/cluster-issuer: "${cluster_issuer}"
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/router.tls: "true"
+      ingress.kubernetes.io/ssl-redirect: "true"
       kubernetes.io/ingress.allow-http: "false"
     hosts:
       - host: "${keycloak.domain}"
@@ -245,6 +247,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: "${cluster_issuer}"
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls: "true"
+        ingress.kubernetes.io/ssl-redirect: "true"
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${alertmanager.domain}"
@@ -301,6 +304,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: "${cluster_issuer}"
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls: "true"
+        ingress.kubernetes.io/ssl-redirect: "true"
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${grafana.domain}"
@@ -323,6 +327,7 @@ kube-prometheus-stack:
         cert-manager.io/cluster-issuer: "${cluster_issuer}"
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls: "true"
+        ingress.kubernetes.io/ssl-redirect: "true"
         kubernetes.io/ingress.allow-http: "false"
       hosts:
         - "${prometheus.domain}"
@@ -420,6 +425,7 @@ minio:
       cert-manager.io/cluster-issuer: "${cluster_issuer}"
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/router.tls: "true"
+      ingress.kubernetes.io/ssl-redirect: "true"
       kubernetes.io/ingress.allow-http: "false"
     hosts:
       - "${minio.domain}"
