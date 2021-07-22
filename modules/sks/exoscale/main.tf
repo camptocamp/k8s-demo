@@ -14,7 +14,7 @@ locals {
   default_nodepools = {
     "router-${var.cluster_name}" = {
       size          = 2
-      instance_type = "medium"
+      instance_type = "small"
     },
     "devops-stack-${var.cluster_name}" = {
       size          = 2
